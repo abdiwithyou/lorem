@@ -3,34 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Example</title>
+    <title>Geolocation Example</title>
   </head>
   <body>
-    <div id="hasil">Akses terbatas. Masukkan token untuk mengakses fitur ini.</div>
-
-    <div class="p" id="hasil">Memeriksa geolokasi...</div>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi porro
-      nemo inventore? Natus in ea modi pariatur alias cumque placeat animi sunt
-      voluptatem saepe commodi neque, possimus quia deleniti aliquam quasi nam
-      deserunt itaque, aut veniam! Quam laboriosam, excepturi perferendis itaque
-      tenetur ut facilis eligendi, dignissimos hic, incidunt sapiente ad? Cumque
-      non sint nam hic rerum quibusdam dignissimos consectetur provident amet odit
-      assumenda voluptates officiis saepe eum, nemo quidem! Adipisci hic
-      voluptatibus molestiae a. Mollitia itaque iure minus accusamus ipsum minima,
-      praesentium illo voluptates consectetur nobis aliquid, ipsa quia deleniti
-      deserunt qui aspernatur dolorem culpa, facere eaque debitis! Magnam!
-    </p>
+    <div id="hasil">
+      Fitur ini tidak tersedia untuk halaman ini.
+    </div>
     <script>
-      // Token pemilik (jangan simpan token sensitif di sisi klien untuk data penting!)
-      const ownerToken = "12345";
+      // Periksa apakah URL cocok dengan "/owner"
+      if (window.location.pathname === "/owner") {
+        // Jalankan kode khusus
+        document.querySelector("#hasil").innerHTML = "Memeriksa lokasi Anda...";
 
-      // Minta token dari pengguna
-      const userToken = prompt("Masukkan token untuk akses fitur khusus:");
-
-      // Periksa token
-      if (userToken === ownerToken) {
-        // Jalankan kode jika token cocok
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             sukses,
@@ -51,59 +35,28 @@
         }
 
         function salah(error) {
-          document.querySelector("#hasil").innerHTML =
-            "Gagal mendapatkan lokasi: " + error.message;
+          let message = "";
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              message = "Pengguna menolak permintaan geolokasi.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              message = "Informasi lokasi tidak tersedia.";
+              break;
+            case error.TIMEOUT:
+              message = "Permintaan geolokasi melebihi batas waktu.";
+              break;
+            default:
+              message = "Terjadi kesalahan yang tidak diketahui.";
+              break;
+          }
+          document.querySelector("#hasil").innerHTML = message;
         }
       } else {
+        // Pesan jika URL tidak cocok
         document.querySelector("#hasil").innerHTML =
-          "Token salah. Anda tidak memiliki akses ke fitur ini.";
-      }
-      // Memeriksa apakah geolokasi didukung
-      if (!navigator.geolocation) {
-        document.querySelector("#hasil").innerHTML =
-          "Geolokasi tidak didukung oleh browser ini.";
-      } else {
-        // Mendapatkan lokasi pengguna
-        navigator.geolocation.getCurrentPosition(
-          sukses,
-          salah,
-          { enableHighAccuracy: true }
-        );
-      }
-
-      // Fungsi jika geolokasi berhasil
-      function sukses(position) {
-        document.querySelector("#hasil").innerHTML =
-          "Latitude: " +
-          position.coords.latitude +
-          " , Longitude: " +
-          position.coords.longitude;
-      }
-
-      // Fungsi jika geolokasi gagal
-      function salah(error) {
-        let message = "";
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            message = "Pengguna menolak permintaan geolokasi.";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            message = "Informasi lokasi tidak tersedia.";
-            break;
-          case error.TIMEOUT:
-            message = "Permintaan geolokasi melebihi batas waktu.";
-            break;
-          default:
-            message = "Terjadi kesalahan yang tidak diketahui.";
-            break;
-        }
-        document.querySelector("#hasil").innerHTML = message;
+          "Anda tidak memiliki akses ke fitur ini.";
       }
     </script>
   </body>
 </html>
-
-
-
-
-    

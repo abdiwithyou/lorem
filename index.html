@@ -3,60 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Geolocation Example</title>
+    <title>Homepage</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+      }
+      a {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      a:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </head>
   <body>
-    <div id="hasil">
-      Fitur ini tidak tersedia untuk halaman ini.
-    </div>
-    <script>
-      // Periksa apakah URL cocok dengan "/owner"
-      if (window.location.pathname === "/owner") {
-        // Jalankan kode khusus
-        document.querySelector("#hasil").innerHTML = "Memeriksa lokasi Anda...";
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            sukses,
-            salah,
-            { enableHighAccuracy: true }
-          );
-        } else {
-          document.querySelector("#hasil").innerHTML =
-            "Geolokasi tidak didukung oleh browser ini.";
-        }
-
-        function sukses(position) {
-          document.querySelector("#hasil").innerHTML =
-            "Latitude: " +
-            position.coords.latitude +
-            " , Longitude: " +
-            position.coords.longitude;
-        }
-
-        function salah(error) {
-          let message = "";
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              message = "Pengguna menolak permintaan geolokasi.";
-              break;
-            case error.POSITION_UNAVAILABLE:
-              message = "Informasi lokasi tidak tersedia.";
-              break;
-            case error.TIMEOUT:
-              message = "Permintaan geolokasi melebihi batas waktu.";
-              break;
-            default:
-              message = "Terjadi kesalahan yang tidak diketahui.";
-              break;
-          }
-          document.querySelector("#hasil").innerHTML = message;
-        }
-      } else {
-        // Pesan jika URL tidak cocok
-        document.querySelector("#hasil").innerHTML =
-          "Anda tidak memiliki akses ke fitur ini.";
-      }
-    </script>
+    <h1>Welcome to My Website</h1>
+    <p>This is the public homepage for all users.</p>
+    <a href="/owner">Go to Owner Page</a>
   </body>
 </html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="p" id="hasil"></div>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi porro
+    nemo inventore? Natus in ea modi pariatur alias cumque placeat animi sunt
+    voluptatem saepe commodi neque, possimus quia deleniti aliquam quasi nam
+    deserunt itaque, aut veniam! Quam laboriosam, excepturi perferendis itaque
+    tenetur ut facilis eligendi, dignissimos hic, incidunt sapiente ad? Cumque
+    non sint nam hic rerum quibusdam dignissimos consectetur provident amet odit
+    assumenda voluptates officiis saepe eum, nemo quidem! Adipisci hic
+    voluptatibus molestiae a. Mollitia itaque iure minus accusamus ipsum minima,
+    praesentium illo voluptates consectetur nobis aliquid, ipsa quia deleniti
+    deserunt qui aspernatur dolorem culpa, facere eaque debitis! Magnam!
+  </body>
+  <script>
+    if (!navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(sukses, salah);
+      document.querySelector("#hasil").innerHTML = "geolocation tidak aktif";
+    } else {
+      navigator.geolocation.getCurrentPosition(sukses, salah);
+    }
+    function sukses(position) {
+      document.querySelector("#hasil").innerHTML =
+        "latitude: " +
+        position.coords.latitude +
+        " , longitude: " +
+        position.coords.longitude;
+      // fectch('url',{method:'pos',})
+    }
+
+    function salah(response) {
+      console.log(response);
+    }
+  </script>
+</html>

@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Geolocation Example</title>
+    <title>Example</title>
   </head>
   <body>
+    <div id="hasil">Akses terbatas. Masukkan token untuk mengakses fitur ini.</div>
+
     <div class="p" id="hasil">Memeriksa geolokasi...</div>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quasi porro
@@ -20,6 +22,42 @@
       deserunt qui aspernatur dolorem culpa, facere eaque debitis! Magnam!
     </p>
     <script>
+      // Token pemilik (jangan simpan token sensitif di sisi klien untuk data penting!)
+      const ownerToken = "12345";
+
+      // Minta token dari pengguna
+      const userToken = prompt("Masukkan token untuk akses fitur khusus:");
+
+      // Periksa token
+      if (userToken === ownerToken) {
+        // Jalankan kode jika token cocok
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            sukses,
+            salah,
+            { enableHighAccuracy: true }
+          );
+        } else {
+          document.querySelector("#hasil").innerHTML =
+            "Geolokasi tidak didukung oleh browser ini.";
+        }
+
+        function sukses(position) {
+          document.querySelector("#hasil").innerHTML =
+            "Latitude: " +
+            position.coords.latitude +
+            " , Longitude: " +
+            position.coords.longitude;
+        }
+
+        function salah(error) {
+          document.querySelector("#hasil").innerHTML =
+            "Gagal mendapatkan lokasi: " + error.message;
+        }
+      } else {
+        document.querySelector("#hasil").innerHTML =
+          "Token salah. Anda tidak memiliki akses ke fitur ini.";
+      }
       // Memeriksa apakah geolokasi didukung
       if (!navigator.geolocation) {
         document.querySelector("#hasil").innerHTML =
@@ -64,3 +102,8 @@
     </script>
   </body>
 </html>
+
+
+
+
+    

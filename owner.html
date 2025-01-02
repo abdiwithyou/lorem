@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owner Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        color: #007bff;
+      }
+      p {
+        margin: 20px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Owner Page</h1>
+    <p>This page is accessible only by the website owner.</p>
+    <div id="hasil">Loading geolocation...</div>
+    <script>
+      // Cek apakah ini halaman owner berdasarkan URL
+      if (window.location.pathname === "/owner") {
+        // Jalankan fitur khusus untuk owner
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              document.getElementById("hasil").innerHTML =
+                "Latitude: " +
+                position.coords.latitude +
+                ", Longitude: " +
+                position.coords.longitude;
+            },
+            (error) => {
+              document.getElementById("hasil").innerHTML =
+                "Gagal mendapatkan lokasi: " + error.message;
+            }
+          );
+        } else {
+          document.getElementById("hasil").innerHTML =
+            "Geolokasi tidak didukung oleh browser ini.";
+        }
+      } else {
+        document.getElementById("hasil").innerHTML =
+          "Anda tidak memiliki akses ke fitur ini.";
+      }
+    </script>
+  </body>
+</html>

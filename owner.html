@@ -25,21 +25,36 @@
     <p>This page is accessible only by the website owner.</p>
     <div id="hasil">Loading geolocation...</div>
     <script>
-      // Cek apakah ini halaman owner berdasarkan URL
-      if (window.location.pathname === "/owner") {
-        // Jalankan fitur khusus untuk owner
+      // Cek apakah ini adalah halaman owner
+      if (window.location.pathname.includes("owner")) {
+        // Cek dukungan geolocation
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
+              // Tampilkan latitude dan longitude
               document.getElementById("hasil").innerHTML =
                 "Latitude: " +
                 position.coords.latitude +
-                ", Longitude: " +
+                "<br>Longitude: " +
                 position.coords.longitude;
             },
             (error) => {
-              document.getElementById("hasil").innerHTML =
-                "Gagal mendapatkan lokasi: " + error.message;
+              // Tangani berbagai jenis kesalahan
+              let errorMessage;
+              switch (error.code) {
+                case error.PERMISSION_DENIED:
+                  errorMessage = "Akses lokasi ditolak oleh pengguna.";
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  errorMessage = "Informasi lokasi tidak tersedia.";
+                  break;
+                case error.TIMEOUT:
+                  errorMessage = "Permintaan lokasi terlalu lama.";
+                  break;
+                default:
+                  errorMessage = "Terjadi kesalahan tidak diketahui.";
+              }
+              document.getElementById("hasil").innerHTML = errorMessage;
             }
           );
         } else {

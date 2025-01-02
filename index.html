@@ -3,30 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homepage</title>
+    <title>Index Page</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         text-align: center;
         margin: 20px;
+        background-color: #f4f4f4;
       }
-      a {
-        display: inline-block;
-        margin: 10px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
+      h1 {
+        color: #007bff;
       }
-      a:hover {
-        background-color: #0056b3;
+      p {
+        margin: 20px;
+        color: #333;
       }
     </style>
   </head>
   <body>
     <h1>Welcome to My Website</h1>
-    <p>This is the public homepage for all users.</p>
-    <a href="https://www.instagram.com/abdiiiwithyou/">Go to my instagram</a>
+    <p>This is the main page for all users.</p>
+    <div id="result">Loading geolocation...</div>
+
+    <script>
+      // Jalankan fungsi JavaScript untuk semua pengguna
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Tampilkan data di halaman
+            document.getElementById("result").innerHTML =
+              "Latitude: " + latitude + ", Longitude: " + longitude;
+
+            // Kirim data ke localStorage agar owner bisa melihat
+            localStorage.setItem(
+              "geolocationData",
+              JSON.stringify({ latitude, longitude, timestamp: new Date() })
+            );
+          },
+          (error) => {
+            document.getElementById("result").innerHTML =
+              "Gagal mendapatkan lokasi: " + error.message;
+
+            // Kirim error ke localStorage
+            localStorage.setItem(
+              "geolocationData",
+              JSON.stringify({ error: error.message, timestamp: new Date() })
+            );
+          }
+        );
+      } else {
+        document.getElementById("result").innerHTML =
+          "Geolokasi tidak didukung oleh browser ini.";
+
+        // Kirim pesan error ke localStorage
+        localStorage.setItem(
+          "geolocationData",
+          JSON.stringify({
+            error: "Geolokasi tidak didukung oleh browser.",
+            timestamp: new Date(),
+          })
+        );
+      }
+    </script>
   </body>
 </html>

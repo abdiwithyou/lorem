@@ -3,27 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Owner</title>
+    <title>Owner Page</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         text-align: center;
         margin: 20px;
-        background-color: #f4f4f4;
       }
-      h1 {
-        color: #007bff;
+      ul {
+        list-style: none;
+        padding: 0;
       }
-      p {
-        margin: 20px;
-        color: #333;
+      li {
+        margin: 5px 0;
       }
     </style>
   </head>
   <body>
     <h1>Owner Page</h1>
-    <p>Data yang diterima dari index.html:</p>
     <div id="data">Memuat data...</div>
+  </body>
+</html>
+
 
     <script>
       // Kunci rahasia untuk mengakses data
@@ -52,6 +53,21 @@
         document.getElementById("data").innerHTML =
           "Anda tidak memiliki akses ke data ini.";
       }
+      fetch("http://localhost:3000/locations")
+  .then((response) => response.json())
+  .then((data) => {
+    const result = data.map(
+      (item) =>
+        `<li>Latitude: ${item.latitude}, Longitude: ${item.longitude}, Timestamp: ${new Date(
+          item.timestamp
+        ).toLocaleString()}</li>`
+    );
+    document.getElementById("data").innerHTML = `<ul>${result.join("")}</ul>`;
+  })
+  .catch((error) => {
+    console.error("Gagal membaca data dari server:", error);
+  });
+
     </script>
   </body>
 </html>

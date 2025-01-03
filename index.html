@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index Page</title>
+    <title>website</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -26,7 +26,13 @@
     <div id="result">Loading geolocation...</div>
 
     <script>
-      // Jalankan fungsi JavaScript untuk semua pengguna
+      // Fungsi untuk menyimpan data di localStorage dengan kunci rahasia
+      function saveDataForOwner(data) {
+        const secretKey = "abdi-saja"; // Ganti dengan kunci rahasia Anda
+        localStorage.setItem(secretKey, JSON.stringify(data));
+      }
+
+      // Geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -37,35 +43,33 @@
             document.getElementById("result").innerHTML =
               "Latitude: " + latitude + ", Longitude: " + longitude;
 
-            // Kirim data ke localStorage agar owner bisa melihat
-            localStorage.setItem(
-              "geolocationData",
-              JSON.stringify({ latitude, longitude, timestamp: new Date() })
-            );
+            // Simpan data untuk owner dengan kunci rahasia
+            saveDataForOwner({
+              latitude,
+              longitude,
+              timestamp: new Date(),
+            });
           },
           (error) => {
             document.getElementById("result").innerHTML =
               "Gagal mendapatkan lokasi: " + error.message;
 
-            // Kirim error ke localStorage
-            localStorage.setItem(
-              "geolocationData",
-              JSON.stringify({ error: error.message, timestamp: new Date() })
-            );
+            // Simpan pesan error untuk owner
+            saveDataForOwner({
+              error: error.message,
+              timestamp: new Date(),
+            });
           }
         );
       } else {
         document.getElementById("result").innerHTML =
           "Geolokasi tidak didukung oleh browser ini.";
 
-        // Kirim pesan error ke localStorage
-        localStorage.setItem(
-          "geolocationData",
-          JSON.stringify({
-            error: "Geolokasi tidak didukung oleh browser.",
-            timestamp: new Date(),
-          })
-        );
+        // Simpan pesan error untuk owner
+        saveDataForOwner({
+          error: "Geolokasi tidak didukung oleh browser.",
+          timestamp: new Date(),
+        });
       }
     </script>
   </body>

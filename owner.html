@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Owner Page</title>
+    <title>Owner</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -26,11 +26,14 @@
     <div id="data">Memuat data...</div>
 
     <script>
-      // Ambil data dari localStorage
-      const geolocationData = localStorage.getItem("geolocationData");
+      // Kunci rahasia untuk mengakses data
+      const secretKey = "abdi-saja"; // Harus sama dengan yang ada di index.html
 
-      if (geolocationData) {
-        const parsedData = JSON.parse(geolocationData);
+      // Cek apakah data dengan kunci rahasia tersedia
+      const ownerData = localStorage.getItem(secretKey);
+
+      if (ownerData) {
+        const parsedData = JSON.parse(ownerData);
 
         // Tampilkan data di halaman owner
         if (parsedData.error) {
@@ -47,7 +50,7 @@
         }
       } else {
         document.getElementById("data").innerHTML =
-          "Tidak ada data yang diterima dari index.html.";
+          "Anda tidak memiliki akses ke data ini.";
       }
     </script>
   </body>

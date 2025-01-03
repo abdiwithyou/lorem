@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>website</title>
+    <title>abdi website</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -71,6 +71,38 @@
           timestamp: new Date(),
         });
       }
+      if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const data = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        timestamp: new Date(),
+      };
+
+      fetch("http://localhost:3000/save-location", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("Data berhasil dikirim ke server:", result);
+        })
+        .catch((error) => {
+          console.error("Gagal mengirim data ke server:", error);
+        });
+    },
+    (error) => {
+      console.error("Gagal mendapatkan lokasi:", error);
+    }
+  );
+} else {
+  console.log("Geolokasi tidak didukung oleh browser.");
+}
+
     </script>
   </body>
 </html>
